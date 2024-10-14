@@ -1,0 +1,33 @@
+name: Docker Build and Push image
+
+on:
+  push:
+    branches:
+      - dockerhub
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Publish to Registry scorpio2002/flibusta_db
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: scorpio2002/flibusta_db
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        workdir: phpdocker/pg
+    - name: Publish to Registry scorpio2002/flibusta_php
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: scorpio2002/flibusta_php
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        workdir: phpdocker/php-fpm
+    - name: Publish to Registry scorpio2002/flibusta_web
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: scorpio2002/flibusta_web
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        dockerfile: phpdocker/nginx/Dockerfile

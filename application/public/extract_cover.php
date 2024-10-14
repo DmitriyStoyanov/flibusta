@@ -150,6 +150,34 @@ if ($type == 'epub') {
 	}
 }
 
+if ($type == 'djvu') {
+  file_put_contents(ROOT_PATH . "cache/tmp/$iid.djvu", $f);
+  include('/application/djvu.php');
+  $djvu = new Djvu(ROOT_PATH . "cache/tmp/$iid.djvu");
+  $image = $djvu->GetPage(1, true);
+  error_log(print_r($image, true));
+  # error_log($type);
+
+// 	// Путь к DJVU файлу
+//   $djvuFile = 'path/to/file.djvu';
+
+//   // Путь для сохранения JPG
+//   $jpgFile = 'output.jpg';
+
+//   // Команда для извлечения первой страницы
+//   $command = "ddjvu -format=tiff -page=1 $djvuFile stdout | convert - $jpgFile";
+
+//   // Выполнение команды
+//   exec($command, $output, $returnVar);
+
+//   // Проверка на ошибки
+//   if ($returnVar === 0) {
+//     echo "Первая страница успешно сохранена в $jpgFile";
+//   } else {
+//     echo "Ошибка при извлечении страницы.";
+//   }
+}
+
 if (strlen($cover) < 100) {
 	$cover = file_get_contents('/application/none.jpg');
 	echo $cover;
